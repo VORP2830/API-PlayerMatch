@@ -1,1 +1,1 @@
-web: gunicorn -b 0.0.0.0:$PORT Balancear:app
+web: gunicorn Balancear:app
