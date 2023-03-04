@@ -35,9 +35,9 @@ def balanceamento(PessoasOrdenadas, QuantidadePessoasTimes):
 
 @app.route('/')
 def index():
-    return 'Bem-vindo à API'
+    return '<h1 style="text-align: center;">Bem vindo à API</h1>'
 
-@app.route('/balanceamento', methods=['POST'])
+@app.route('/', methods=['POST'])
 def PostBalanceamento():
     jogadores = request.json
     PessoasOrdenadas = sorted(jogadores['Pessoas'], key=lambda x: x["media"], reverse=True)
