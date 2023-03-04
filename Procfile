@@ -1,1 +1,1 @@
-web: gunicorn Balancear:app
+web: gunicorn --timeout 120 Balancear:app
