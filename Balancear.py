@@ -1,10 +1,9 @@
 from flask import Flask, request
 import copy
 import json
-
+import os
 
 app = Flask(__name__)
-
 
 def balanceamento(PessoasOrdenadas, QuantidadePessoasTimes):
     QuantidadeTotal = len(PessoasOrdenadas)
@@ -44,4 +43,4 @@ def PostBalanceamento():
     QuantidadePessoasTimes = jogadores['PessoasPorTime']
     return balanceamento(PessoasOrdenadas, QuantidadePessoasTimes)
 
-app.run()
+app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
