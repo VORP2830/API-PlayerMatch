@@ -43,4 +43,4 @@ def PostBalanceamento():
     QuantidadePessoasTimes = jogadores['PessoasPorTime']
     return balanceamento(PessoasOrdenadas, QuantidadePessoasTimes)
 
-app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
+app.run(host='0.0.0.0', port=int(os.environ.get("PORT")))
