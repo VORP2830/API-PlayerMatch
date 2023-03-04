@@ -6,7 +6,7 @@ Este projeto consiste em uma API construída em Flask para balancear times com b
 
 Para utilizar esta API, siga os seguintes passos:
 
-1. Faça um POST para a rota `/balanceamento` com um JSON no formato:
+1. Faça um POST para a rota `/` com um JSON no formato:
 
 ```
 {
