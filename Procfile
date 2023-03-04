@@ -1,1 +1,1 @@
-gunicorn Balancear:app -c gunicorn_config.py
+web: gunicorn Balancear:app
