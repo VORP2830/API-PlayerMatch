@@ -5,32 +5,31 @@ import os
 
 app = Flask(__name__)
 
-def balanceamento(PessoasOrdenadas, QuantidadePessoasTimes):
-    QuantidadeTotal = len(PessoasOrdenadas)
-    QuantidadeTimes = QuantidadeTotal // QuantidadePessoasTimes
-    QuantidadeExcedentes = QuantidadeTotal % QuantidadePessoasTimes
+def balanceamento(pessoasOrdenadas, quantidadePessoasTimes):
+    quantidadeTotal = len(pessoasOrdenadas)
+    quantidadeTimes = quantidadeTotal // quantidadePessoasTimes
+    quantidadeExcedentes = quantidadeTotal % quantidadePessoasTimes
 
-    if (QuantidadeExcedentes):
-        return f'Não é possivel fazer esse balanceamento pois temos {QuantidadeExcedentes} jogadores excedente. Adicione mais {QuantidadePessoasTimes - QuantidadeExcedentes} jogador(es) para fazer o balanceamento'
+    if (quantidadeExcedentes):
+        return f'Não é possivel fazer esse balanceamento pois temos {quantidadeExcedentes} jogadores excedente. Adicione mais {quantidadePessoasTimes - quantidadeExcedentes} jogador(es) para fazer o balanceamento'
     
-    Times = [[] for i in range(QuantidadeTimes)]
+    times = [[] for i in range(quantidadeTimes)]
 
-    for i in range(QuantidadePessoasTimes):
-        for j in range(QuantidadeTimes):
-            if PessoasOrdenadas:
-                if(len(Times[j]) > 0):
-                    Times[j].append(PessoasOrdenadas.pop(len(PessoasOrdenadas)-1))
+    for i in range(quantidadePessoasTimes):
+        for j in range(quantidadeTimes):
+            if pessoasOrdenadas:
+                if(len(times[j]) > 0):
+                    times[j].append(pessoasOrdenadas.pop(len(pessoasOrdenadas)-1))
                 else:
-                    Times[j].append(PessoasOrdenadas.pop(0))
+                    times[j].append(pessoasOrdenadas.pop(0))
         
+    while pessoasOrdenadas:
+        timeMenorMedia = min(times, key=lambda x: sum(p['media'] for p in x))
+        pessoaRestante = pessoasOrdenadas.pop(0)
+        timeComNovaPessoa = copy.deepcopy(timeMenorMedia)
+        timeComNovaPessoa.append(pessoaRestante)
 
-    while PessoasOrdenadas:
-        TimeMenorMedia = min(Times, key=lambda x: sum(p['media'] for p in x))
-        PessoaRestante = PessoasOrdenadas.pop(0)
-        TimeComNovaPessoa = copy.deepcopy(TimeMenorMedia)
-        TimeComNovaPessoa.append(PessoaRestante)
-
-    return json.dumps(Times)
+    return json.dumps(times)
 
 
 @app.route('/')
@@ -38,11 +37,11 @@ def index():
     return '<h1 style="text-align: center;">Bem vindo à API</h1>'
 
 @app.route('/', methods=['POST'])
-def PostBalanceamento():
+def postBalanceamento():
     jogadores = request.json
-    PessoasOrdenadas = sorted(jogadores['Pessoas'], key=lambda x: x["media"], reverse=True)
-    QuantidadePessoasTimes = jogadores['PessoasPorTime']
-    return balanceamento(PessoasOrdenadas, QuantidadePessoasTimes)
+    pessoasOrdenadas = sorted(jogadores['Pessoas'], key=lambda x: x["media"], reverse=True)
+    quantidadePessoasTimes = jogadores['PessoasPorTime']
+    return balanceamento(pessoasOrdenadas, quantidadePessoasTimes)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
