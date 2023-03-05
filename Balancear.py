@@ -20,7 +20,8 @@ def balanceamento(PessoasOrdenadas, QuantidadePessoasTimes):
             if PessoasOrdenadas:
                 if(len(Times[j]) > 0):
                     Times[j].append(PessoasOrdenadas.pop(len(PessoasOrdenadas)-1))
-                Times[j].append(PessoasOrdenadas.pop(0))
+                else:
+                    Times[j].append(PessoasOrdenadas.pop(0))
         
 
     while PessoasOrdenadas:
