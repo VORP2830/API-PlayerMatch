@@ -1,6 +1,6 @@
 import json
 import pytest
-from Balancear import balanceamento, app, balanceamentoGenero
+from Balancear import balanceamento, app
 
 @pytest.fixture
 def client():
@@ -107,65 +107,3 @@ def test_balanceamento_errado():
     quantidadePessoasTimes = jogadores['PessoasPorTime']
     times = balanceamento(pessoasOrdenadas, quantidadePessoasTimes)
     assert u'Não é possivel fazer esse balanceamento pois temos 1 jogadores excedente. Adicione mais 1 jogador(es) para fazer o balanceamento' in times
-
-def test_balanceamento_genero():
-    jogadores = {
-    "Pessoas": [
-        {
-            "nome": "Fulano",
-            "media": 7.5,
-            "sexo": "M"
-        },
-        {
-            "nome": "Ciclano",
-            "media": 8.0,
-            "sexo": "F"
-        },
-        {
-            "nome": "Beltrano",
-            "media": 6.5,
-            "sexo": "F"
-        },
-        {
-            "nome": "Outro",
-            "media": 9.0,
-            "sexo": "M"
-        }
-    ],
-    "PessoasPorTime": 2
-}
-    pessoasOrdenadas = sorted(jogadores['Pessoas'], key=lambda x: x["media"], reverse=True)
-    quantidadePessoasTimes = jogadores['PessoasPorTime']
-    times = balanceamentoGenero(pessoasOrdenadas, quantidadePessoasTimes)
-    assert isinstance(json.loads(times), list)
-
-def test_balanceamento_errado_genero():
-    jogadores = {
-    "Pessoas": [
-        {
-            "nome": "Fulano",
-            "media": 7.5,
-            "sexo": "M"
-        },
-        {
-            "nome": "Ciclano",
-            "media": 8.0,
-            "sexo": "F"
-        },
-        {
-            "nome": "Beltrano",
-            "media": 6.5,
-            "sexo": "M"
-        },
-        {
-            "nome": "Beltrano",
-            "media": 6.5,
-            "sexo": "M"
-        }
-    ],
-    "PessoasPorTime": 2
-}
-    pessoasOrdenadas = sorted(jogadores['Pessoas'], key=lambda x: x["media"], reverse=True)
-    quantidadePessoasTimes = jogadores['PessoasPorTime']
-    times = balanceamentoGenero(pessoasOrdenadas, quantidadePessoasTimes)
-    assert u'Não é possível balancear as equipes pois a quantidade de homens e mulheres é diferente' in times
